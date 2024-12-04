@@ -1,0 +1,25 @@
+<form class="row g-3 mt-4 mb-4" id="add-form">
+    <div class="col-md-12">
+        <label for="tittle" class="form-label">tittle</label>
+        <input type="text" class="form-control" id="tittle">
+    </div>
+    <div>
+        <label for="description">Leave a comment here</label>
+        <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
+    </div>
+    <div class="col-md-4">
+        <label for="inputState" class="form-label">priority</label>
+        <select id="inputState" class="form-select">
+            <option selected>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="category" class="form-label">Category</label>
+        <input type="text" class="form-control" id="category">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100" data-bs-toggle="tooltip" data-bs-placement="top" title="Add task">add</button>
+    </div>
+</form>
