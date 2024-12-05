@@ -18,8 +18,6 @@ class TodoItem(models.Model):
         default=2,
         verbose_name="Priorytet"
     )
-    category = models.CharField(max_length=50, blank=True, verbose_name="Kategoria")
-
     
     class Meta:
         verbose_name = "Zadanie"
