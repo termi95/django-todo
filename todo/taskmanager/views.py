@@ -32,6 +32,7 @@ def getTask(request, task_id):
         "is_completed": todo.is_completed
     }, status=200)
 
+@csrf_exempt
 def add(request):
     if request.method == "POST":
         try:
@@ -62,7 +63,8 @@ def add(request):
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:
         return JsonResponse({"error": "Only POST method is allowed."}, status=405)
-    
+
+@csrf_exempt    
 def delete(request, task_id):
     if request.method == "DELETE":
         task = get_object_or_404(TodoItem, id=task_id)
@@ -109,7 +111,8 @@ def edit(request, task_id):
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:
         return JsonResponse({"error": "Only PUT method is allowed."}, status=405)
-    
+
+@csrf_exempt    
 def done(request, task_id):
     if request.method == 'POST':
             try:

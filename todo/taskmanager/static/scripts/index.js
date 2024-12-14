@@ -7,7 +7,6 @@ form.addEventListener("submit", async (e) => {
     const description = document.getElementById("description").value;
     const priority = document.getElementById("inputState").value;
 
-
     const data = {
         title: title,
         description: description,
@@ -32,9 +31,8 @@ form.addEventListener("submit", async (e) => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const trashIcons = document.querySelectorAll('.bi-trash');
-
+function deleteEvent() {
+    const trashIcons = document.querySelectorAll('.trash-btn');
     trashIcons.forEach(icon => {
         icon.addEventListener('click', async (event) => {
             const taskElement = event.target.closest('[task-id]');
@@ -51,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     if (response.ok) {
-                        taskElement.parentElement.remove();
+                        refresh();
                     }
                 } catch (error) {
                     console.error('Error:', error);
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
+}
 
 function refresh() {
     const mainList = document.getElementById("mainList")
@@ -71,6 +69,7 @@ function refresh() {
         })
         .then(html => {
             mainList.innerHTML = html;
+            deleteEvent();
             addCheckboxEventListeners();
         })
 }
@@ -110,15 +109,16 @@ document.addEventListener("click", function (event) {
 
 function modalSubmit() {
     const modal = document.getElementById('modal-form')
-    
+
     modal.addEventListener("submit", async (e) => {
         e.preventDefault();
-    
+        const dic = {'3':'Low','2':'Medium','1':'High'};
+
         const taskId = document.getElementById("modal-taskId").value;
         const title = document.getElementById("modal-tittle").value;
         const description = document.getElementById("modal-description").value;
-        const priority = document.getElementById("modal-inputState").value;
-    
+        const priority = dic[document.getElementById("modal-inputState").value];
+
         const data = {
             title: title,
             description: description,
@@ -133,7 +133,7 @@ function modalSubmit() {
                 },
                 body: JSON.stringify(data),
             });
-    
+
             if (response.ok) {
                 refresh();
                 document.getElementById('modal-close').click();
@@ -141,7 +141,7 @@ function modalSubmit() {
         } catch (err) {
             console.error("Wystąpił błąd sieci:", err);
         }
-    });   
+    });
 }
 
 function addCheckboxEventListeners() {
@@ -149,7 +149,7 @@ function addCheckboxEventListeners() {
         checkbox.addEventListener('change', function () {
             const taskId = checkbox.value;
             const isCompleted = checkbox.checked;
-            
+
             fetch(`/todos/done/${taskId}/`, {
                 method: 'POST',
                 headers: {
@@ -160,14 +160,14 @@ function addCheckboxEventListeners() {
                     completed: isCompleted
                 })
             })
-            .then(response => {
-                if (response.ok) {
-                    refresh();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        refresh();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     });
 }
